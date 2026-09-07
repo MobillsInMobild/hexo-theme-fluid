@@ -39,6 +39,8 @@ page404:
   subtitle: 'Page not found'
 
 post:
+  toc_expand: 'Expand section'
+  toc_collapse: 'Collapse section'
   toc: 'Table of Contents'
   prev_post: 'Previous'
   next_post: 'Next'
@@ -64,6 +66,13 @@ footer:
   uv: 'Visitors: {}'
 
 search:
+  loading: 'Loading search index…'
+  prompt: 'Enter keywords to search articles.'
+  error: 'Search could not load. Please try again.'
+  retry: 'Retry'
+  empty: 'No matching articles.'
+  count: '{count} matching articles'
+  more: 'Show more'
   title: 'Search'
   keyword: 'Keyword'
 
@@ -72,3 +81,11 @@ noscript_warning: 'Blog works best with JavaScript enabled'
 darkmode:
   light: 'Light'
   dark: 'Dark'
+
+code:
+  copy: 'Copy code'
+  copied: 'Copied'
+  failed: 'Copy failed; select the code and copy manually.'
+
+ui:
+  close: 'Close'

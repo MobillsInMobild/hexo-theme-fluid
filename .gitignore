@@ -8,3 +8,5 @@ Thumbs.db
 node_modules/
 package-lock.json
 *.lock
+
+!tests/package-lock.json

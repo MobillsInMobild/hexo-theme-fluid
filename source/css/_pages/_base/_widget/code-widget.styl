@@ -34,3 +34,18 @@
 
 .markdown-body pre:hover > .copy-btn, .markdown-body pre:not(:hover) > .copy-btn
   outline none
+
+button.copy-btn
+  border 0
+  font-family inherit
+
+.markdown-body pre > .copy-btn:focus-visible
+  outline 2px solid var(--link-hover-color)
+  outline-offset 3px
+
+.copy-btn:focus > i
+  opacity 0.9
+
+@media (hover: none)
+  .copy-btn > i
+    opacity 0.9

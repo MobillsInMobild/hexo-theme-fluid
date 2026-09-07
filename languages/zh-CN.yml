@@ -40,6 +40,8 @@ page404:
 
 post:
   toc: '目录'
+  toc_expand: '展开章节'
+  toc_collapse: '收起章节'
   prev_post: '上一篇'
   next_post: '下一篇'
   updated: '本文最后更新于 %s'
@@ -66,9 +68,24 @@ footer:
 search:
   title: '搜索'
   keyword: '关键词'
+  loading: '正在加载搜索索引…'
+  prompt: '输入关键词搜索文章'
+  error: '搜索加载失败，请重试'
+  retry: '重新加载'
+  empty: '没有找到匹配的文章'
+  count: '找到 {count} 篇文章'
+  more: '显示更多'
 
 noscript_warning: '博客在允许 JavaScript 运行的环境下浏览效果更佳'
 
 darkmode:
   light: '开灯'
   dark: '关灯'
+
+code:
+  copy: '复制代码'
+  copied: '已复制'
+  failed: '复制失败，请选中代码后手动复制'
+
+ui:
+  close: '关闭'

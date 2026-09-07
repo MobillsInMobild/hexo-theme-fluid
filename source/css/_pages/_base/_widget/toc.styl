@@ -105,3 +105,69 @@
   position sticky
   top 2rem
   padding 3rem 0
+
+button.toc-toggle
+  border 0
+  background transparent
+  padding 0
+  font-family inherit
+
+button.toc-toggle:focus-visible, .tocbot-link:focus-visible
+  outline 2px solid var(--link-hover-color)
+  outline-offset 2px
+
+.mobile-toc-toggle
+  position fixed
+  bottom calc(1rem + env(safe-area-inset-bottom, 0px))
+  right 1rem
+  z-index 1030
+  border 1px solid var(--line-color)
+  border-radius 1.5rem
+  background var(--board-bg-color)
+  color var(--text-color)
+  padding .65rem 1rem
+  box-shadow 0 2px 12px rgba(0, 0, 0, .15)
+  cursor pointer
+
+.mobile-toc-toggle[hidden]
+  display none !important
+
+.mobile-toc-toggle:focus-visible
+  outline 2px solid var(--link-hover-color)
+  outline-offset 3px
+
+#mobile-toc-dialog
+  .modal-content
+    background var(--board-bg-color)
+    color var(--text-color)
+
+  .modal-header
+    border-color var(--line-color)
+
+  .close
+    color var(--text-color)
+
+  .toc-header
+    display none
+
+  .toc-body
+    max-height 65vh
+    overflow-x auto
+    padding .25rem
+
+  .tocbot-list a
+    font-size 1rem
+
+  .toc-list-item
+    padding .3rem 0
+
+  button.toc-toggle
+    min-width 1.75rem
+    min-height 1.75rem
+
+  .toc-toggle-placeholder
+    width 1.75rem
+
+@media print
+  #mobile-toc-toggle, #mobile-toc-dialog
+    display none !important

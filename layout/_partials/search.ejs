@@ -1,19 +1,20 @@
-<div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+<div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="local-search-title"
      aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold"><%= __('search.title') %></h4>
+        <h4 id="local-search-title" class="modal-title w-100 font-weight-bold"><%= __('search.title') %></h4>
         <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body mx-3">
         <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
+          <input type="text" id="local-search-input" class="form-control validate" autocomplete="off" aria-describedby="local-search-status">
           <label data-error="x" data-success="v" for="local-search-input"><%= __('search.keyword') %></label>
         </div>
-        <div class="list-group" id="local-search-result"></div>
+        <p id="local-search-status" role="status" aria-live="polite" aria-atomic="true"></p>
+        <div class="list-group" id="local-search-result" aria-busy="false"></div>
       </div>
     </div>
   </div>

@@ -10,7 +10,27 @@ const urlJoin = require('../utils/url-join');
  */
 hexo.extend.helper.register('export_config', function () {
   let { config, theme, fluid_version } = this;
+  const uiText = (key, fallback) => {
+    const value = this.__(key);
+    return value === key ? fallback : value;
+  };
   const exportConfig = {
+    ui: {
+      search: {
+        loading: uiText('search.loading', 'Loading search index…'),
+        prompt: uiText('search.prompt', 'Enter keywords to search articles.'),
+        error: uiText('search.error', 'Search could not load. Please try again.'),
+        retry: uiText('search.retry', 'Retry'),
+        empty: uiText('search.empty', 'No matching articles.'),
+        count: uiText('search.count', '{count} matching articles'),
+        more: uiText('search.more', 'Show more')
+      },
+      copy: uiText('code.copy', 'Copy code'),
+      copied: uiText('code.copied', 'Copied'),
+      copyFailed: uiText('code.failed', 'Copy failed; select the code and copy manually.'),
+      tocExpand: uiText('post.toc_expand', 'Expand section'),
+      tocCollapse: uiText('post.toc_collapse', 'Collapse section')
+    },
     hostname: url.parse(config.url).hostname || config.url,
     root: config.root,
     version: fluid_version,
