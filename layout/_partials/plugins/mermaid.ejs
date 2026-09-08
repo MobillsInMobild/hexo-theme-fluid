@@ -1,13 +1,8 @@
 <script>
   Fluid.utils.createScript('<%= url_join(theme.static_prefix.mermaid, 'mermaid.min.js') %>', function() {
-    mermaid.initialize(<%- JSON.stringify(theme.post.mermaid.options || {}) %>);
-
-    Fluid.utils.listenDOMLoaded(function() {
-      Fluid.events.registerRefreshCallback(function() {
-        if ('mermaid' in window) {
-          mermaid.init();
-        }
-      });
+    mermaid.initialize({ startOnLoad: false });
+    Fluid.utils.createScript('<%= url_join(theme.static_prefix.internal_js, 'mermaid.js') %>', function() {
+      Fluid.initMermaid(<%- JSON.stringify(theme.post.mermaid.options || {}).replace(/</g, '\u003c') %>, <%= theme.post.mermaid.auto_theme !== false %>);
     });
   });
 </script>

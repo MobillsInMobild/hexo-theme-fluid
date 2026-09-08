@@ -763,6 +763,9 @@ post:
     specific: false
 
     # See: http://mermaid-js.github.io/mermaid/
+    # Follow Fluid's light/dark mode; disable to always use options.theme.
+    # 跟随 Fluid 深浅色模式；关闭后始终使用 options.theme。
+    auto_theme: true
     options: { theme: 'default' }
 
   # 评论插件

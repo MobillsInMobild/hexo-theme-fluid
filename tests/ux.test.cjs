@@ -293,3 +293,50 @@ test('search keyboard navigation respects IME and moves native focus between inp
   input.trigger(b.$.Event('keydown', {key: 'ArrowDown'}));
   assert.equal(b.w.document.activeElement, input[0]);
 });
+
+test('Mermaid follows theme changes, preserves source and skips redundant refreshes', async t => {
+  const dom = browser('<div class="mermaid">graph TD; A--&gt;B</div>');
+  t.after(() => dom.window.close());
+  const w=dom.window, calls=[]; let theme;
+  w.Fluid.utils.listenDOMLoaded = fn => fn();
+  w.mermaid = { initialize(options) { theme=options.theme; }, init(config,node) {
+    calls.push({theme, source:node.textContent}); node.innerHTML='<svg></svg>';
+  }};
+  w.eval(source('mermaid.js')); w.Fluid.initMermaid({theme:'forest'}, true);
+  await wait(20);
+  assert.equal(calls[0].theme, 'forest');
+  w.Fluid.events.refresh(); await wait(20); assert.equal(calls.length,1);
+  w.document.documentElement.setAttribute('data-user-color-scheme','dark'); await wait(20);
+  assert.equal(calls[1].theme,'dark');
+  assert.equal(calls[1].source,'graph TD; A-->B');
+  w.document.documentElement.setAttribute('data-user-color-scheme','light'); await wait(20);
+  assert.equal(calls[2].theme,'forest');
+  const node=w.document.createElement('div'); node.className='mermaid'; node.textContent='graph TD; C-->D';
+  w.document.body.appendChild(node); w.Fluid.events.refresh(); await wait(20);
+  assert.equal(calls.length,4);
+});
+
+test('Mermaid serializes async rendering and settles on the latest theme', async t => {
+  const dom=browser('<div class="mermaid">graph TD; A--&gt;B</div>');
+  t.after(() => dom.window.close()); const w=dom.window, calls=[]; let theme, active=0;
+  w.Fluid.utils.listenDOMLoaded=fn=>fn();
+  w.mermaid={initialize(o){theme=o.theme;}, async run({nodes}) {
+    assert.equal(active++,0); calls.push(theme); await wait(25);
+    nodes[0].innerHTML='<svg></svg>'; active--;
+  }};
+  w.eval(source('mermaid.js')); w.Fluid.initMermaid({},true);
+  w.document.documentElement.setAttribute('data-user-color-scheme','dark');
+  await wait(100); assert.deepEqual(calls,['default','dark']);
+});
+
+test('Mermaid opt-out preserves a fixed theme and rendering errors preserve source', async t => {
+  const dom=browser('<div class="mermaid">invalid diagram</div>');
+  t.after(() => dom.window.close()); const w=dom.window, themes=[];
+  w.Fluid.utils.listenDOMLoaded=fn=>fn(); w.console.error=()=>{};
+  w.mermaid={initialize(o){themes.push(o.theme);},init(){throw Error('invalid');}};
+  w.eval(source('mermaid.js')); w.Fluid.initMermaid({theme:'neutral'},false);
+  await wait(20); w.document.documentElement.setAttribute('data-user-color-scheme','dark');
+  await wait(20); assert.equal(themes.length,2);
+  assert.equal(themes[1],'neutral');
+  assert.equal(w.document.querySelector('.mermaid').textContent,'invalid diagram');
+});

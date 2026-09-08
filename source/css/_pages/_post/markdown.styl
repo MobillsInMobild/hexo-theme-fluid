@@ -90,3 +90,10 @@ hr, .markdown-body hr
 
   figcaption:not(.image-caption)
     display none
+
+// Mermaid draws its own nodes; its code-block canvas follows the article theme.
+.markdown-body pre.fluid-mermaid
+  background-color var(--board-bg-color)
+
+  code.mermaid
+    background-color transparent
