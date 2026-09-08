@@ -49,3 +49,16 @@ button.copy-btn
 @media (hover: none)
   .copy-btn > i
     opacity 0.9
+
+.copy-btn > i
+  display inline-block
+  width 1em
+  text-align center
+
+.copy-btn[data-copy-state] > i
+  opacity .9
+
+.copy-btn[data-copy-state="error"] > i::before
+  content "!"
+  font-family inherit
+  font-weight bold

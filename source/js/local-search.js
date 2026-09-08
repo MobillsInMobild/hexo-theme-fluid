@@ -74,7 +74,7 @@
     }
     $result[0].appendChild(fragment);
     if (shown < matches.length) {
-      jQuery('<button>', { type: 'button', class: 'btn btn-outline-primary search-more' })
+      jQuery('<button>', { type: 'button', class: 'btn search-action search-more' })
         .text(labels.more).appendTo($result);
     }
   }
@@ -122,7 +122,7 @@
   function showFailure() {
     $result.empty();
     setStatus(labels.error, false);
-    jQuery('<button>', { type: 'button', class: 'btn btn-outline-primary search-retry' })
+    jQuery('<button>', { type: 'button', class: 'btn search-action search-retry' })
       .text(labels.retry).appendTo($result);
   }
 

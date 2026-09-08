@@ -16,12 +16,15 @@
     transform translateZ(0)
     animation scroll-down 1.5s infinite
 
+#scroll-top-button, .mobile-toc-toggle
+  background var(--board-bg-color)
+  border-radius 4px
+  box-shadow 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12)
+
 #scroll-top-button
   position fixed
   z-index 99
-  background var(--board-bg-color)
   transition background-color .2s ease-in-out, bottom .3s ease
-  border-radius 4px
   min-width 40px
   min-height 40px
   bottom -60px
@@ -29,7 +32,6 @@
   display flex
   display -webkit-flex
   align-items center
-  box-shadow 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12)
 
   i
     font-size 32px

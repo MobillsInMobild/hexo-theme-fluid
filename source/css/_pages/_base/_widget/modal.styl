@@ -22,7 +22,7 @@
 .modal-dialog .modal-content .modal-header
   border-top-left-radius .125rem
   border-top-right-radius .125rem
-  border-bottom 1px solid #dee2e6
+  border-bottom 1px solid var(--line-color)
 
 .md-form
   position relative
@@ -98,3 +98,7 @@
 
   #navbar[style]
     padding-right 1rem !important
+
+.modal .close:focus-visible
+  outline 2px solid var(--link-hover-color)
+  outline-offset 3px

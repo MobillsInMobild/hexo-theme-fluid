@@ -121,13 +121,25 @@ button.toc-toggle:focus-visible, .tocbot-link:focus-visible
   bottom calc(1rem + env(safe-area-inset-bottom, 0px))
   right 1rem
   z-index 1030
-  border 1px solid var(--line-color)
-  border-radius 1.5rem
-  background var(--board-bg-color)
-  color var(--text-color)
-  padding .65rem 1rem
-  box-shadow 0 2px 12px rgba(0, 0, 0, .15)
+  border 0
+  color var(--sec-text-color)
+  min-width 44px
+  min-height 44px
+  padding .5rem .75rem
+  display inline-flex
+  align-items center
+  justify-content center
+  gap .35rem
+  font-size .875rem
+  line-height 1.5
+  transition background-color .2s ease-in-out, color .2s ease-in-out
   cursor pointer
+
+  i
+    font-size 1.25rem
+
+  &:hover
+    color var(--link-hover-color)
 
 .mobile-toc-toggle[hidden]
   display none !important
@@ -137,16 +149,6 @@ button.toc-toggle:focus-visible, .tocbot-link:focus-visible
   outline-offset 3px
 
 #mobile-toc-dialog
-  .modal-content
-    background var(--board-bg-color)
-    color var(--text-color)
-
-  .modal-header
-    border-color var(--line-color)
-
-  .close
-    color var(--text-color)
-
   .toc-header
     display none
 

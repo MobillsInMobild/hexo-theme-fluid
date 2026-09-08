@@ -165,9 +165,13 @@ test('copy widgets initialize one delegated instance and survive refresh/new cod
   assert.equal(instances[0].options.text(button), 'const n = 1;');
   instances[0].events.success({ trigger: button, clearSelection() {} });
   assert.equal(button.getAttribute('aria-label'), 'Copied');
+  assert.equal(button.querySelector('.code-widget-label').textContent, 'JS');
+  assert.equal(button.getAttribute('data-copy-state'), 'success');
   assert.equal(instances[0].options.text(button), 'const n = 1;');
   instances[0].events.error({ trigger: button });
   assert.match(w.document.querySelector('#code-copy-status').textContent, /Copy failed/);
+  assert.equal(button.querySelector('.code-widget-label').textContent, 'JS');
+  assert.equal(button.getAttribute('data-copy-state'), 'error');
   assert.equal(button.tagName, 'BUTTON');
 });
 

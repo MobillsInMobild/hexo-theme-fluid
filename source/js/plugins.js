@@ -147,18 +147,16 @@ Fluid.plugins = {
     function feedback(event, success) {
       var button = event.trigger;
       var $button = jQuery(button);
-      var $label = $button.find('.code-widget-label');
-      if (!button.hasAttribute('data-copy-language')) { button.setAttribute('data-copy-language', $label.text()); }
       clearTimeout(button._fluidCopyTimer);
       $button.attr({ title: success ? labels.copied : labels.copyFailed,
         'aria-label': success ? labels.copied : labels.copyFailed });
       $button.find('i').toggleClass('icon-copy', !success).toggleClass('icon-success', success);
-      $label.text(success ? labels.copied : labels.copyFailed);
+      $button.attr('data-copy-state', success ? 'success' : 'error');
       $status.text(success ? labels.copied : labels.copyFailed);
       button._fluidCopyTimer = setTimeout(function() {
         $button.attr({ title: labels.copy, 'aria-label': labels.copy });
         $button.find('i').removeClass('icon-success').addClass('icon-copy');
-        $label.text(button.getAttribute('data-copy-language'));
+        $button.removeAttr('data-copy-state');
         $status.text('');
       }, success ? 2000 : 5000);
     }
