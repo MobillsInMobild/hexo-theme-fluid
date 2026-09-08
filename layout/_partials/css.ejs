@@ -14,7 +14,7 @@
 
 <%- css_ex(theme.static_prefix.internal_css, 'main.css') %>
 
-<% if (theme.code.highlight.enable) { %>
+<% if (theme.code.highlight.enable && theme.code.highlight.lib !== 'shiki') { %>
   <%- css_ex(theme.static_prefix.internal_css, 'highlight.css', 'id="highlight-css"') %>
   <% if (theme.dark_mode.enable) { %>
     <%- css_ex(theme.static_prefix.internal_css, 'highlight-dark.css', 'id="highlight-css-dark"') %>

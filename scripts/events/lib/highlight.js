@@ -73,6 +73,10 @@ module.exports = (hexo) => {
     return;
   }
 
+  if (config.code.highlight.lib === 'shiki') {
+    return require('./shiki')(hexo);
+  }
+
   if (config.code.highlight.lib === 'highlightjs') {
     // Force set hexo config
     hexo.config.prismjs = objUtil.merge({}, hexo.config.prismjs, {

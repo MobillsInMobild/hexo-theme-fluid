@@ -105,7 +105,7 @@ Fluid.plugins = {
     }
     jQuery('.markdown-body pre').each(function() {
       var $pre = jQuery(this);
-      if ($pre.find('code.mermaid, span.line').length || $pre.children('.code-widget').length) { return; }
+      if (($pre.find('code.mermaid').length || (!$pre.hasClass('shiki') && $pre.find('span.line').length)) || $pre.children('.code-widget').length) { return; }
       var lang = '';
       if (enableLang) {
         lang = CONFIG.code_language.default;

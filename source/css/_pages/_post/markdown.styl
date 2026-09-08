@@ -97,3 +97,57 @@ hr, .markdown-body hr
 
   code.mermaid
     background-color transparent
+
+// Shiki supplies both palettes at build time; no browser highlighter is needed.
+.markdown-body pre.shiki
+  position relative
+  padding 2rem 1rem 1rem
+  color var(--shiki-light)
+  background-color var(--shiki-light-bg)
+  overflow auto
+
+  code
+    background transparent
+    display block
+    width max-content
+    min-width 100%
+    counter-reset shiki-line
+
+  span[style]
+    color var(--shiki-light)
+    background-color var(--shiki-light-bg)
+    font-style var(--shiki-light-font-style)
+    font-weight var(--shiki-light-font-weight)
+    text-decoration var(--shiki-light-text-decoration)
+
+  &.shiki-line-numbers .line::before
+    counter-increment shiki-line
+    content counter(shiki-line)
+    display inline-block
+    width 3em
+    padding-right 1em
+    color var(--sec-text-color)
+    opacity .6
+    text-align right
+    user-select none
+
+shiki-dark()
+  .markdown-body pre.shiki
+    color var(--shiki-dark)
+    background-color var(--shiki-dark-bg)
+
+    span[style]
+      color var(--shiki-dark)
+      background-color var(--shiki-dark-bg)
+      font-style var(--shiki-dark-font-style)
+      font-weight var(--shiki-dark-font-weight)
+      text-decoration var(--shiki-dark-text-decoration)
+
+if hexo-config('dark_mode.enable')
+  @media not print
+    [data-user-color-scheme='dark']
+      shiki-dark()
+
+    @media (prefers-color-scheme: dark)
+      :root:not([data-user-color-scheme])
+        shiki-dark()

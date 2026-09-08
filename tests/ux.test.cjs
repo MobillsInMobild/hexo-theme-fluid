@@ -340,3 +340,33 @@ test('Mermaid opt-out preserves a fixed theme and rendering errors preserve sour
   assert.equal(themes[1],'neutral');
   assert.equal(w.document.querySelector('.mermaid').textContent,'invalid diagram');
 });
+
+test('Shiki renders dual palettes, preserves source, handles unknown languages and leaves Mermaid intact', async () => {
+  let render;
+  const hexo={config:{},theme:{config:{code:{highlight:{line_number:true}}}},extend:{filter:{register(name,fn,priority){
+    assert.equal(name,'after_post_render'); assert.equal(priority,5); render=fn;
+  }}}};
+  require('../scripts/events/lib/shiki')(hexo);
+  const page=await render({content:'<p>Before</p><pre><code class="language-js">const x = &quot;&lt;tag&gt;&quot;;\n\nconsole.log(x);\n</code></pre>' +
+    '<pre><code class="unknown-language">&lt;script&gt;literal&lt;/script&gt;</code></pre>' +
+    '<pre><code class="language-mermaid">graph TD; A--&gt;B</code></pre><p>After</p>'});
+  const dom=new JSDOM(page.content); const d=dom.window.document;
+  assert.equal(d.querySelectorAll('pre.shiki').length,2);
+  assert.match(page.content,/--shiki-light/); assert.match(page.content,/--shiki-dark/);
+  assert.equal(d.querySelector('pre.shiki code').textContent,'const x = "<tag>";\n\nconsole.log(x);\n');
+  assert.equal(d.querySelector('pre.shiki code').querySelectorAll('.line').length,4);
+  assert.equal(d.querySelector('code.mermaid').textContent,'graph TD; A-->B');
+  assert.equal(d.querySelectorAll('script').length,0);
+  assert.equal((await render(page)).content,page.content);
+  dom.window.close();
+});
+
+test('Shiki copy widget retains language and copies code without line numbers or labels', t => {
+  const dom=browser('<main class="markdown-body"><pre class="shiki" data-language="javascript"><code><span class="line">const n = 1;</span>\n<span class="line">n++;</span></code></pre></main>');
+  t.after(()=>dom.window.close()); const w=dom.window; let clipboard;
+  w.ClipboardJS=function(selector,options){clipboard=options;this.on=()=>{};};
+  w.eval(source('plugins.js')); w.Fluid.plugins.codeWidget();
+  const button=w.document.querySelector('.copy-btn'); assert.ok(button);
+  assert.equal(button.querySelector('.code-widget-label').textContent,'JAVASCRIPT');
+  assert.equal(clipboard.text(button),'const n = 1;\nn++;');
+});

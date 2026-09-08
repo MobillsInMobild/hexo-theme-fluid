@@ -56,8 +56,13 @@ code:
 
     # 实现高亮的库，对应下面的设置
     # Highlight library
-    # Options: highlightjs | prismjs
+    # Options: highlightjs | prismjs | shiki
     lib: "highlightjs"
+
+    # Requires Node >=20 and npm install shiki cheerio in the blog directory. Build-time dual themes.
+    shiki:
+      theme: github-light
+      theme_dark: github-dark
 
     highlightjs:
       # 在链接中挑选 style 填入
