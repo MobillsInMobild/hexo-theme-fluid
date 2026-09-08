@@ -249,7 +249,7 @@ test('TOC supports Escape, accessible collapse state, current location and refre
 
 
 
-test('localized browser config preserves the result-count placeholder through Hexo i18n', () => {
+test('exported browser config uses the standard URL API and preserves localized placeholders', () => {
   const vm = require('node:vm');
   const { createRequire } = require('node:module');
   const I18n = require('hexo-i18n');
@@ -272,6 +272,18 @@ test('localized browser config preserves the result-count placeholder through He
     assert.ok(!html.includes('%d'));
     assert.ok(html.includes(lang === 'zh-CN' ? '找到 {count} 篇文章' : '{count} matching articles'));
   }
+  const hosts = [
+    ['https://blog.example/docs/', 'blog.example'],
+    ['http://localhost:4000/', 'localhost'],
+    ['not a valid URL', 'not a valid URL']
+  ];
+  for (const [url, hostname] of hosts) {
+    const html = helper.call({
+      config: { url, root: '/' }, theme: themeConfig, fluid_version: 'test', __: key => key
+    });
+    assert.equal(JSON.parse(html.match(/var CONFIG = (.*);/)[1]).hostname, hostname);
+  }
+  assert.doesNotMatch(fs.readFileSync(helperPath, 'utf8'), /url\.parse/);
 });
 
 test('search keyboard navigation respects IME and moves native focus between input and results', async t => {

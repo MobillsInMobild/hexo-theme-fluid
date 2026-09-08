@@ -2,8 +2,17 @@
 
 'use strict';
 
-const url = require('url');
+const { URL } = require('url');
 const urlJoin = require('../utils/url-join');
+
+function getHostname(siteUrl) {
+  try {
+    return new URL(siteUrl).hostname || siteUrl;
+  } catch (error) {
+    // Keep the old fallback for an incomplete or relative site URL.
+    return siteUrl;
+  }
+}
 
 /**
  * Export theme config to js
@@ -31,7 +40,7 @@ hexo.extend.helper.register('export_config', function () {
       tocExpand: uiText('post.toc_expand', 'Expand section'),
       tocCollapse: uiText('post.toc_collapse', 'Collapse section')
     },
-    hostname: url.parse(config.url).hostname || config.url,
+    hostname: getHostname(config.url),
     root: config.root,
     version: fluid_version,
     typing: theme.fun_features.typing,
