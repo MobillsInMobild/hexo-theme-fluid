@@ -273,3 +273,23 @@ test('localized browser config preserves the result-count placeholder through He
     assert.ok(html.includes(lang === 'zh-CN' ? '找到 {count} 篇文章' : '{count} matching articles'));
   }
 });
+
+test('search keyboard navigation respects IME and moves native focus between input and results', async t => {
+  const b = searchBrowser(); t.after(() => b.dom.window.close()); b.open();
+  b.resolve([{title: 'Guide one'}, {title: 'Guide two'}]);
+  await b.query('guide');
+  const input = b.$('#local-search-input');
+  input.trigger('focus').trigger(b.$.Event('keydown', {key: 'ArrowDown'}));
+  assert.equal(b.w.document.activeElement, b.$('.search-list-title')[0]);
+  b.$(b.w.document.activeElement).trigger(b.$.Event('keydown', {key: 'ArrowDown'}));
+  assert.equal(b.w.document.activeElement, b.$('.search-list-title')[1]);
+  b.$(b.w.document.activeElement).trigger(b.$.Event('keydown', {key: 'ArrowUp'}));
+  b.$(b.w.document.activeElement).trigger(b.$.Event('keydown', {key: 'ArrowUp'}));
+  assert.equal(b.w.document.activeElement, input[0]);
+  input.trigger('compositionstart').trigger(b.$.Event('keydown', {key: 'ArrowDown'}));
+  assert.equal(b.w.document.activeElement, input[0]);
+  input.trigger('compositionend');
+  await b.query('no result');
+  input.trigger(b.$.Event('keydown', {key: 'ArrowDown'}));
+  assert.equal(b.w.document.activeElement, input[0]);
+});

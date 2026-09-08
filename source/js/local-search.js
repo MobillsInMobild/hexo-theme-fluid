@@ -60,16 +60,19 @@
       var match = matches[shown];
       var link = document.createElement('a');
       link.href = match.data.url;
-      link.className = 'list-group-item list-group-item-action font-weight-bolder search-list-title';
+      link.className = 'search-list-title';
+      var item = document.createElement('div');
+      item.className = 'search-item';
       highlight(link, match.data.title);
-      fragment.appendChild(link);
+      item.appendChild(link);
+      fragment.appendChild(item);
       if (match.data.content) {
         var start = Math.max(0, match.first - 20);
         var excerpt = match.data.content.slice(start, start + 120);
         var p = document.createElement('p');
         p.className = 'search-list-content';
         highlight(p, (start ? '…' : '') + excerpt + (start + 120 < match.data.content.length ? '…' : ''));
-        fragment.appendChild(p);
+        item.appendChild(p);
       }
     }
     $result[0].appendChild(fragment);
@@ -114,7 +117,6 @@
     matches.sort(function(a, b) { return b.score - a.score || a.order - b.order; });
     setStatus(matches.length ? labels.count.replace('{count}', matches.length) : labels.empty, false);
     if (matches.length) {
-      $input.addClass('valid');
       appendResults();
     }
   }
@@ -171,6 +173,22 @@
     if (composing || (event.originalEvent && event.originalEvent.isComposing)) { return; }
     if (failed) { return; }
     timer = setTimeout(search, 180);
+  });
+  // Use native link focus: Enter activates the link and Tab remains available.
+  $modal.on('keydown.fluidSearch', function(event) {
+    if (composing || event.isComposing || (event.originalEvent && event.originalEvent.isComposing) ||
+        event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) { return; }
+    if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') { return; }
+    var links = $result.find('.search-list-title');
+    var index = links.index(event.target);
+    if (event.target !== $input[0] && index < 0) { return; }
+    if (!links.length) { return; }
+    event.preventDefault();
+    var next = event.key === 'ArrowDown' ? index + 1 : index - 1;
+    if (next < 0) { $input.trigger('focus'); return; }
+    var target = links[Math.min(next, links.length - 1)];
+    target.focus();
+    if (target.scrollIntoView) { target.scrollIntoView({ block: 'nearest' }); }
   });
   $result.on('click.fluidSearch', '.search-retry', loadIndex);
   $result.on('click.fluidSearch', '.search-more', function() {

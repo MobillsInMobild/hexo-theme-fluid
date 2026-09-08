@@ -1,17 +1,115 @@
+#modalSearch
+  .search-header
+    align-items center
+    gap 1rem
+    padding 1.25rem 1.5rem
+
+    > i
+      color var(--sec-text-color)
+
+    .close
+      flex-shrink 0
+      margin -.5rem -.5rem -.5rem 0
+      padding .5rem
+      min-width 44px
+      min-height 44px
+
+  #local-search-input
+    flex 1
+    min-width 0
+    padding .5rem 0
+    border 0
+    border-bottom 1px solid transparent
+    border-radius 0
+    outline none
+    background transparent
+    color var(--text-color)
+    font inherit
+    font-size 1.125rem
+
+    &::placeholder
+      color var(--sec-text-color)
+      opacity .8
+
+    &:focus
+      border-bottom-color var(--link-hover-color)
+
+  .search-body
+    padding .75rem 1.5rem 1.25rem
+
+  #local-search-status
+    margin .25rem 0 .5rem
+    color var(--sec-text-color)
+    font-size .85rem
+    line-height 1.6
+
 #local-search-result
+  .search-item
+    padding 1rem 0
+    border-bottom 1px solid var(--line-color)
+
+    &:last-child
+      border-bottom 0
+
+    &:focus-within
+      .search-list-title
+        color var(--link-hover-color)
+
   .search-list-title
-    border-left 3px solid #0d47a1
+    display block
+    color var(--text-color)
+    font-size 1rem
+    font-weight 600
+    line-height 1.6
+    overflow-wrap anywhere
+
+    &:hover
+      color var(--link-hover-color)
+
+    &:focus-visible
+      outline 2px solid var(--link-hover-color)
+      outline-offset 4px
+      border-radius .125rem
 
   .search-list-content
-    padding 0 1.25rem
+    margin .4rem 0 0
+    color var(--sec-text-color)
+    font-size .875rem
+    line-height 1.7
+    display -webkit-box
+    -webkit-box-orient vertical
+    -webkit-line-clamp 2
+    overflow hidden
+    overflow-wrap anywhere
 
   .search-word
-    color orangered
+    color var(--link-hover-color)
+    font-weight 600
 
   .search-action
+    display block
+    margin .75rem auto 0
+    padding .5rem 1rem
     min-height 44px
+    border 0
+    background transparent
+    color var(--sec-text-color)
+    font-size .875rem
+
+    &:hover
+      color var(--link-hover-color)
+      background var(--button-hover-bg-color)
 
     &:focus-visible
       outline 2px solid var(--link-hover-color)
       outline-offset 3px
       box-shadow none
+
+@media (max-width: 575px)
+  #modalSearch
+    .search-header
+      gap .5rem
+      padding .75rem 1rem
+
+    .search-body
+      padding .5rem 1rem 1rem
