@@ -352,6 +352,18 @@ lazyload:
   # The factor of viewport height that triggers loading
   offset_factor: 2
 
+# 首页文章封面的 EdgeOne 图片即时处理。仅作用于首页卡片，不会改写 Markdown 或文章正文中的图片地址。
+# EdgeOne image processing for homepage post covers only. It does not change Markdown files or images in post content.
+index_img:
+  edgeone:
+    enable: false
+    # 按显示尺寸与屏幕像素密度选择合适图片；原图仍作为旧浏览器的后备资源
+    # Sizes for responsive image selection; the original remains as a fallback for older browsers
+    widths: [480, 768]
+    # 留空则只缩放，不转换格式
+    # Leave empty to resize without converting the format
+    format: webp
+
 # 图标库，包含了大量社交类图标，主题依赖的不包含在内，因此可自行修改，详见 https://hexo.fluid-dev.com/docs/icon/
 # Icon library, which includes many social icons, does not include those theme dependent, so your can modify link by yourself. See: https://hexo.fluid-dev.com/docs/en/icon/
 iconfont: //at.alicdn.com/t/c/font_1736178_k526ubmyhba.css

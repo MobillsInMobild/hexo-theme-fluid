@@ -10,11 +10,22 @@ page.banner_mask_alpha = theme.index.banner_mask_alpha
 <h1 style="display: none"><%= config.title %></h1>
 <% page.posts.each(function (post) { %>
   <div class="row mx-auto index-card">
-    <% var post_url = url_for(post.path), index_img = post.index_img || theme.post.default_index_img %>
+    <%
+      var post_url = url_for(post.path), index_img = post.index_img || theme.post.default_index_img
+      var index_img_url = index_img && url_for(index_img)
+      var edgeone = theme.index_img && theme.index_img.edgeone
+      var is_local_image = index_img && !/^(?:[a-z][a-z0-9+.-]*:)?\/\//i.test(index_img) && !/^data:/i.test(index_img)
+      var use_edgeone = edgeone && edgeone.enable && is_local_image && edgeone.widths && edgeone.widths.length
+      var edgeone_separator = index_img_url && index_img_url.indexOf('?') === -1 ? '?' : '&'
+      var edgeone_format = edgeone && edgeone.format ? '&eo-img.format=' + edgeone.format : ''
+      var responsive_srcset = use_edgeone && edgeone.widths.map(function(width) {
+        return index_img_url + edgeone_separator + 'eo-img.resize=w/' + width + edgeone_format + ' ' + width + 'w'
+      }).join(', ')
+    %>
     <% if (index_img) { %>
       <div class="col-12 col-md-4 m-auto index-img">
         <a href="<%= post_url %>" target="<%- theme.index.post_url_target %>">
-          <img src="<%= url_for(index_img) %>" alt="<%= post.title %>">
+          <img src="<%= index_img_url %>"<% if (responsive_srcset) { %> data-fluid-srcset="<%= responsive_srcset %>" sizes="(max-width: 767px) calc(100vw - 30px), 285px"<% } %> alt="<%= post.title %>">
         </a>
       </div>
     <% } %>
