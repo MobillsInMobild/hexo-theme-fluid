@@ -44,6 +44,10 @@ var ogConfig = Object.assign({ image: ogImage && url_for(ogImage) }, theme.open_
   <% } %>
   <title><%= title %></title>
 
+  <% if (is_home() && theme.index.banner_img) { %>
+    <link rel="preload" as="image" href="<%= url_for(theme.index.banner_img) %>" fetchpriority="high">
+  <% } %>
+
   <%- partial('_partials/css.ejs') %>
   <%- export_config() %>
   <%- js_ex(theme.static_prefix.internal_js, 'utils.js') %>
