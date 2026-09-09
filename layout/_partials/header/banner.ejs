@@ -24,10 +24,17 @@ if (random_banner_attr) {
 var banner_img_height = parseFloat(page.banner_img_height || theme.index.banner_img_height)
 var banner_mask_alpha = parseFloat(page.banner_mask_alpha || theme.index.banner_mask_alpha)
 var subtitle = page.subtitle || page.title
+var edgeone = theme.image_optimization && theme.image_optimization.edgeone
+var banner_img_url = url_for(banner_img)
+var is_local_banner = banner_img && !/^(?:[a-z][a-z0-9+.-]*:)?\/\//i.test(banner_img) && !/^data:/i.test(banner_img)
+if (edgeone && edgeone.enable && edgeone.banner_width && is_local_banner) {
+  banner_img_url += (banner_img_url.indexOf('?') === -1 ? '?' : '&') + 'eo-img.resize=w/' + edgeone.banner_width
+  if (edgeone.format) banner_img_url += '&eo-img.format=' + edgeone.format
+}
 %>
 
 <div id="banner" class="banner"<%- banner_attrs %>
-     style="background: url('<%- url_for(banner_img) %>') no-repeat center center; background-size: cover;">
+     style="background: url('<%- banner_img_url %>') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, <%= banner_mask_alpha %>)">
       <div class="banner-text text-center fade-in-up">

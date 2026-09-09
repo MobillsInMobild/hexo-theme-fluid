@@ -352,14 +352,18 @@ lazyload:
   # The factor of viewport height that triggers loading
   offset_factor: 2
 
-# 首页文章封面的 EdgeOne 图片即时处理。仅作用于首页卡片，不会改写 Markdown 或文章正文中的图片地址。
-# EdgeOne image processing for homepage post covers only. It does not change Markdown files or images in post content.
-index_img:
+# EdgeOne 图片即时处理。页面展示使用派生图，Markdown 与放大查看始终保留原图地址。
+# EdgeOne image processing. Displayed images use derivatives; Markdown and zoom views retain original URLs.
+image_optimization:
   edgeone:
     enable: false
-    # 按显示尺寸与屏幕像素密度选择合适图片；原图仍作为旧浏览器的后备资源
-    # Sizes for responsive image selection; the original remains as a fallback for older browsers
-    widths: [480, 768]
+    # 首页卡片和正文图片按显示尺寸与屏幕像素密度选择合适图片
+    # Sizes for responsive homepage covers and post content images
+    index_widths: [480, 768]
+    content_widths: [640, 960, 1440]
+    # 横幅背景图使用的最大宽度；保留原图用于未启用即时处理时的后备
+    # Maximum banner width; the original remains the fallback when processing is disabled
+    banner_width: 1920
     # 留空则只缩放，不转换格式
     # Leave empty to resize without converting the format
     format: webp

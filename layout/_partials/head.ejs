@@ -44,8 +44,16 @@ var ogConfig = Object.assign({ image: ogImage && url_for(ogImage) }, theme.open_
   <% } %>
   <title><%= title %></title>
 
-  <% if (is_home() && theme.index.banner_img) { %>
-    <link rel="preload" as="image" href="<%= url_for(theme.index.banner_img) %>" fetchpriority="high">
+  <% if (is_home() && theme.index.banner_img) {
+    var edgeone = theme.image_optimization && theme.image_optimization.edgeone
+    var indexBannerUrl = url_for(theme.index.banner_img)
+    var isLocalIndexBanner = !/^(?:[a-z][a-z0-9+.-]*:)?\/\//i.test(theme.index.banner_img) && !/^data:/i.test(theme.index.banner_img)
+    if (edgeone && edgeone.enable && edgeone.banner_width && isLocalIndexBanner) {
+      indexBannerUrl += (indexBannerUrl.indexOf('?') === -1 ? '?' : '&') + 'eo-img.resize=w/' + edgeone.banner_width
+      if (edgeone.format) indexBannerUrl += '&eo-img.format=' + edgeone.format
+    }
+  %>
+    <link rel="preload" as="image" href="<%= indexBannerUrl %>" fetchpriority="high">
   <% } %>
 
   <%- partial('_partials/css.ejs') %>
