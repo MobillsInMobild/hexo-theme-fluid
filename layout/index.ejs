@@ -21,11 +21,14 @@ page.banner_mask_alpha = theme.index.banner_mask_alpha
       var responsive_srcset = use_edgeone && edgeone.index_widths.map(function(width) {
         return index_img_url + edgeone_separator + 'eo-img.resize=w/' + width + edgeone_format + ' ' + width + 'w'
       }).join(', ')
+      var display_img_url = use_edgeone
+        ? index_img_url + edgeone_separator + 'eo-img.resize=w/' + edgeone.index_widths[0] + edgeone_format
+        : index_img_url
     %>
     <% if (index_img) { %>
       <div class="col-12 col-md-4 m-auto index-img">
         <a href="<%= post_url %>" target="<%- theme.index.post_url_target %>">
-          <img src="<%= index_img_url %>"<% if (responsive_srcset) { %> data-fluid-srcset="<%= responsive_srcset %>" sizes="(max-width: 767px) calc(100vw - 30px), 285px"<% } %> alt="<%= post.title %>">
+          <img src="<%= display_img_url %>"<% if (responsive_srcset) { %> data-fluid-srcset="<%= responsive_srcset %>" sizes="(max-width: 767px) calc(100vw - 30px), 285px"<% } %> alt="<%= post.title %>">
         </a>
       </div>
     <% } %>

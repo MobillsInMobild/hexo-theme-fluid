@@ -31,6 +31,10 @@ module.exports = (hexo) => {
       const srcset = edgeone.content_widths
         .map(width => `${edgeoneUrl(src, width, edgeone.format)} ${width}w`)
         .join(', ');
+      // Keep the original only for the zoom viewer. A rendered <img> must not
+      // fall back to the full-size source before its responsive srcset is restored.
+      $image.attr('data-fluid-original', src);
+      $image.attr('src', edgeoneUrl(src, edgeone.content_widths[0], edgeone.format));
       $image.attr('data-fluid-srcset', srcset);
       $image.attr('sizes', '(max-width: 767px) calc(100vw - 30px), 840px');
     });
